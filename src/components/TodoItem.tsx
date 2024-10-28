@@ -17,23 +17,28 @@ const TodoItem = ({
   onDeleteClick,
   onTitleChange,
 }: TodoItemProps) => {
+  // add editing state to update ui
+  const [editing, setEditing] = useState(false);
+
   const [newTitle, setNewTitle] = useState(todo.title);
 
-  // add editing state to update ui
-  const [editing, SetEditing] = useState(false);
-
   const handleSave = (id: number, newTitle: string) => {
-    onTitleChange(id, newTitle);
-    SetEditing(false);
+    //only change the title if input is not empty
+    if (newTitle.trim() !== "") {
+      onTitleChange(id, newTitle);
+    }
+    setEditing(false);
   };
 
   const handleCancel = () => {
     setNewTitle(todo.title);
-    SetEditing(false);
+    setEditing(false);
   };
 
   const handleEdit = () => {
-    SetEditing(true);
+    // display the prev value
+    setNewTitle(todo.title);
+    setEditing(true);
   };
 
   return (
