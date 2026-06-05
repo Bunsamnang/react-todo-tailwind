@@ -1,4 +1,4 @@
-export type Status = "todo" | "in-progress" | "in-review" | "done";
+export type Status = "todo" | "in-progress" | "done";
 
 export interface Todo {
   id: number;
@@ -34,18 +34,11 @@ export const COLUMNS: Column[] = [
     ringClass: "ring-amber-400",
   },
   {
-    status: "in-review",
-    title: "In Review",
+    status: "done",
+    title: "Done",
     headerClass:
       "bg-emerald-300 text-emerald-950 dark:bg-emerald-500 dark:text-emerald-50",
     bodyClass: "bg-emerald-50 dark:bg-slate-800/60",
     ringClass: "ring-emerald-400",
-  },
-  {
-    status: "done",
-    title: "Done",
-    headerClass: "bg-sky-300 text-sky-950 dark:bg-sky-500 dark:text-sky-50",
-    bodyClass: "bg-sky-50 dark:bg-slate-800/60",
-    ringClass: "ring-sky-400",
   },
 ];

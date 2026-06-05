@@ -12,11 +12,15 @@ interface LegacyTodo {
 function loadTodos(): Todo[] {
   const saved: LegacyTodo[] = JSON.parse(localStorage.getItem("todos") || "[]");
 
-  return saved.map((todo) => ({
-    id: todo.id,
-    title: todo.title,
-    status: todo.status ?? (todo.completed ? "done" : "todo"),
-  }));
+  return saved.map((todo) => {
+    // the removed "In Review" column now folds back into "In Progress"
+    const status =
+      todo.status === ("in-review" as Status)
+        ? "in-progress"
+        : todo.status ?? (todo.completed ? "done" : "todo");
+
+    return { id: todo.id, title: todo.title, status };
+  });
 }
 
 export default function useTodo() {

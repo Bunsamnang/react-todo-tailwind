@@ -20,7 +20,7 @@ const KanbanBoard = ({
 
   return (
     <>
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4 pb-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 px-4 pb-4 sm:grid-cols-3">
         {COLUMNS.map((column) => (
           <Column
             key={column.status}
