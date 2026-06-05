@@ -1,66 +1,65 @@
 import { useEffect, useState } from "react";
-import { Todo } from "../types/todo";
+import { Status, Todo } from "../types/todo";
+
+// Support data saved by the previous (completed: boolean) version of the app.
+interface LegacyTodo {
+  id: number;
+  title: string;
+  completed?: boolean;
+  status?: Status;
+}
+
+function loadTodos(): Todo[] {
+  const saved: LegacyTodo[] = JSON.parse(localStorage.getItem("todos") || "[]");
+
+  return saved.map((todo) => ({
+    id: todo.id,
+    title: todo.title,
+    status: todo.status ?? (todo.completed ? "done" : "todo"),
+  }));
+}
 
 export default function useTodo() {
-  const [todos, setTodos] = useState<Todo[]>(() => {
-    const savedTodos: Todo[] = JSON.parse(
-      localStorage.getItem("todos") || "[]"
-    );
-    return savedTodos;
-  });
+  const [todos, setTodos] = useState<Todo[]>(loadTodos);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const handleCompleteChange = (id: number, completed: boolean) => {
-    const newTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: completed } : todo
+  const handleStatusChange = (id: number, status: Status) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, status } : todo))
     );
-
-    setTodos(newTodos);
-
-    console.log(completed);
   };
 
   const handleTitleChange = (id: number, newTitle: string) => {
-    const newTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, title: newTitle } : todo
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, title: newTitle } : todo
+      )
     );
-
-    setTodos(newTodos);
   };
 
   const handleDelete = (id: number) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
-
-    setTodos(newTodos);
-  };
-
-  const handleDeleteCompleted = () => {
-    const inCompletedTodos = todos.filter((todo) => todo.completed !== true);
-
-    setTodos(inCompletedTodos);
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
   const handleSubmit = (title: string) => {
-    setTodos((prev) => {
-      return [
-        {
-          id: prev.length + 1,
-          title: title,
-          completed: false,
-        },
-        ...prev,
-      ];
-    });
+    setTodos((prev) => [
+      {
+        id: Date.now(),
+        title,
+        status: "todo",
+      },
+      ...prev,
+    ]);
   };
+
   return {
     todos,
-    handleCompleteChange,
+    handleStatusChange,
     handleTitleChange,
     handleDelete,
-    handleDeleteCompleted,
     handleSubmit,
   };
 }

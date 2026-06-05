@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/card.tsx","./src/components/column.tsx","./src/components/form.tsx","./src/components/kanbanboard.tsx","./src/hooks/usekanbandnd.ts","./src/hooks/usetheme.ts","./src/hooks/usetodo.ts","./src/types/todo.ts"],"version":"5.6.3"}

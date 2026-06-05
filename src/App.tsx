@@ -1,41 +1,47 @@
+import { Moon, Sun } from "lucide-react";
 import Form from "./components/Form";
-import TodoList from "./components/TodoList";
-import TodoSummary from "./components/TodoSummary";
+import KanbanBoard from "./components/KanbanBoard";
 import useTodo from "./hooks/useTodo";
+import useTheme from "./hooks/useTheme";
 
 function App() {
   const {
     todos,
-    handleCompleteChange,
+    handleStatusChange,
     handleTitleChange,
     handleDelete,
-    handleDeleteCompleted,
     handleSubmit,
   } = useTodo();
 
-  console.log(todos);
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <>
-      <main className="py-10 text-center">
-        <h1 className="py-5 px-5  font-bold text-3xl">Todos</h1>
-        <Form onSubmit={handleSubmit} />
-        <div
-          className={`max-w-xl mx-auto ${
-            todos.length !== 0 ? "bg-slate-100" : ""
-          } rounded-md p-3`}
-        >
-          <TodoList
-            todos={todos}
-            onCompletedChange={handleCompleteChange}
-            onDeleteClick={handleDelete}
-            onTitleChange={handleTitleChange}
-          />
-        </div>
+    <main className="min-h-screen bg-teal-50 py-10 transition-colors duration-300 dark:bg-slate-950">
+      <div className="relative mx-auto mb-6 max-w-6xl px-4">
+        <h1 className="text-center text-2xl font-bold text-teal-900 sm:text-3xl dark:text-white">
+          Kanban Board
+        </h1>
 
-        <TodoSummary todos={todos} onDeleteCompleted={handleDeleteCompleted} />
-      </main>
-    </>
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle dark mode"
+          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-teal-900/10 p-2 text-teal-900 transition-colors hover:bg-teal-900/20 dark:bg-white/15 dark:text-white dark:hover:bg-white/25"
+        >
+          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+      </div>
+
+      <Form onSubmit={handleSubmit} />
+
+      <div className="mt-10">
+        <KanbanBoard
+          todos={todos}
+          onDeleteClick={handleDelete}
+          onTitleChange={handleTitleChange}
+          onStatusChange={handleStatusChange}
+        />
+      </div>
+    </main>
   );
 }
 

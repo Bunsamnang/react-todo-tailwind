@@ -22,22 +22,20 @@ const Form = ({ onSubmit }: Form) => {
     setInput(value);
   };
 
-  console.log(input);
-
   return (
     <form
       action=""
-      className="max-w-xl mx-auto mb-5 flex justify-between "
+      className="max-w-xl mx-auto mb-8 flex justify-between gap-2 px-4"
       onSubmit={handleSubmit}
     >
       <input
         type="text"
-        className="w-80 h-10 outline-none flex-1 shadow-md rounded-md p-2"
+        className="h-10 w-80 flex-1 rounded-md p-2 text-gray-800 shadow-md outline-none placeholder:text-gray-400 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
         value={input}
         placeholder="Enter task"
         onChange={handleChange}
       />
-      <button className="bg-slate-800 py-2 px-5 text-white font-bold rounded-sm hover:bg-slate-700">
+      <button className="rounded-md bg-slate-800 px-5 py-2 font-bold text-white transition-colors hover:bg-slate-700 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-white">
         Add
       </button>
     </form>
